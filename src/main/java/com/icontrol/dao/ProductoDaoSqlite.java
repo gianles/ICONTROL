@@ -99,6 +99,66 @@ public class ProductoDaoSqlite implements ProductoDao {
 
         return p;
     }
+
+    @Override
+    public void actualizar(Producto p) throws SQLException {
+        String sql = """
+        UPDATE producto
+        SET referencia = ?, descripcion = ?, pvp = ?, stock = ?, stock_minimo = ?, id_proveedor = ?
+        WHERE id = ?
+        """;
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, p.getReferencia());
+            ps.setString(2, p.getDescripcion());
+            ps.setDouble(3, p.getPvp());
+            ps.setInt(4, p.getStock());
+            ps.setInt(5, p.getStockMinimo());
+
+            if (p.getIdProveedor() != null) {
+                ps.setLong(6, p.getIdProveedor());
+            } else {
+                ps.setNull(6, Types.INTEGER);
+            }
+
+            ps.setLong(7, p.getId());
+
+            ps.executeUpdate();
+        }
+    }
+
+    @Override
+    public int contarPorProveedor(long idProveedor) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM producto WHERE id_proveedor = ?";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setLong(1, idProveedor);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }
+        return 0;
+    }
+
+
+    @Override
+    public void eliminar(long id) throws SQLException {
+        String sql = "DELETE FROM producto WHERE id = ?";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setLong(1, id);
+            ps.executeUpdate();
+        }
+    }
+
     // 🔹 Prueba rápida de funcionamiento del DAO
     public static void main(String[] args) {
         try {

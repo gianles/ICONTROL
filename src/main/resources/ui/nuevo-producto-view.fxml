@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -29,8 +30,14 @@
             <Label text="Stock mínimo:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
             <TextField fx:id="txtStockMinimo" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
-            <Label text="ID proveedor (opcional):" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-            <TextField fx:id="txtIdProveedor" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+            <Label text="Proveedor:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <HBox spacing="5" GridPane.rowIndex="5" GridPane.columnIndex="1">
+                <ComboBox fx:id="cmbProveedor"
+                          promptText="Selecciona proveedor (opcional)"
+                          HBox.hgrow="ALWAYS"/>
+                <Button text="+" onAction="#onNuevoProveedorClick" prefWidth="30"/>
+            </HBox>
+
         </GridPane>
     </center>
 
@@ -40,6 +47,8 @@
                 <Insets top="10" right="15" bottom="10" left="15"/>
             </padding>
             <Button text="Cancelar" onAction="#onCancelarClick"/>
+
+            <Button fx:id="btnEliminar" text="Eliminar" onAction="#onEliminarClick" visible="false"/>
             <Button fx:id="btnGuardar" text="Guardar" onAction="#onGuardarClick"/>
         </HBox>
     </bottom>

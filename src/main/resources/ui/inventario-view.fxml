@@ -16,7 +16,11 @@
 
             <ToolBar>
                 <Button text="Actualizar" onAction="#onActualizarClick"/>
-                <Button text="Nuevo (demo)" onAction="#onNuevoClick"/>
+                <Button text="Nuevo" onAction="#onNuevoClick"/>
+                <Button text="Editar" onAction="#onEditarClick"/>
+                <Button text="Eliminar" onAction="#onEliminarClick"/>
+                <Separator/>
+                <Button text="Proveedores" onAction="#onProveedoresClick"/>
             </ToolBar>
         </VBox>
     </top>
@@ -33,6 +37,12 @@
             </columns>
         </TableView>
     </center>
+
+    <bottom>
+        <Label fx:id="statusLabel"
+               text=""
+               style="-fx-padding: 6 12 6 12; -fx-background-color: #e0e0e0; -fx-text-fill: #333;"/>
+    </bottom>
 
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>

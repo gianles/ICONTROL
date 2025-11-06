@@ -15,6 +15,10 @@ public class MainApp extends Application {
         BorderPane root = loader.load();
 
         Scene scene = new Scene(root, 900, 600);
+
+        // 👇 Agrega aquí el CSS (dentro de start, después de crear la Scene)
+        scene.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm());
+
         stage.setTitle("ICONTROL - Inventario");
         stage.setScene(scene);
         stage.show();

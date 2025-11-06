@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.icontrol.ui.ProveedoresController">
+
+    <top>
+        <VBox spacing="8">
+            <Label text="ICONTROL - Gestión de proveedores"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 10 10 0 10;"/>
+
+            <ToolBar>
+                <Button text="Nuevo" onAction="#onNuevoClick"/>
+                <Button text="Editar" onAction="#onEditarClick"/>
+                <Button text="Eliminar" onAction="#onEliminarClick"/>
+                <Separator/>
+                <Label text="Buscar:"/>
+                <TextField fx:id="txtBuscar" promptText="Nombre" onKeyReleased="#onBuscarKeyReleased"/>
+                <Separator/>
+                <Button text="Exportar CSV" onAction="#onExportarCsvClick"/>
+                <Button text="Cerrar" onAction="#onCerrarClick"/>
+            </ToolBar>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tablaProveedores">
+            <columns>
+                <TableColumn fx:id="colNombre" text="Nombre" prefWidth="200"/>
+                <TableColumn fx:id="colNif" text="NIF" prefWidth="120"/>
+                <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="120"/>
+                <TableColumn fx:id="colEmail" text="Email" prefWidth="200"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+</BorderPane>

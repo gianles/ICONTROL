@@ -13,4 +13,13 @@ public interface ProductoDao {
     List<Producto> buscarTodos() throws SQLException;
 
     Optional<Producto> buscarPorReferencia(String referencia) throws SQLException;
+
+    // actualizar
+    void actualizar(Producto p) throws SQLException;
+
+    // eliminar
+    void eliminar(long id) throws SQLException;
+
+    int contarPorProveedor(long idProveedor) throws SQLException;
+
 }
