@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.icontrol.ui.InventarioController">
+
+    <!-- PARTE SUPERIOR: título + botones -->
+    <top>
+        <VBox spacing="8">
+            <Label text="ICONTROL - Inventario de productos"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 10 10 0 10;"/>
+
+            <ToolBar>
+                <Button text="Actualizar" onAction="#onActualizarClick"/>
+                <Button text="Nuevo (demo)" onAction="#onNuevoClick"/>
+            </ToolBar>
+        </VBox>
+    </top>
+
+    <!-- CENTRO: tabla de productos -->
+    <center>
+        <TableView fx:id="tablaProductos">
+            <columns>
+                <TableColumn fx:id="colReferencia" text="Referencia" prefWidth="150"/>
+                <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="300"/>
+                <TableColumn fx:id="colPvp" text="PVP" prefWidth="80"/>
+                <TableColumn fx:id="colStock" text="Stock" prefWidth="80"/>
+                <TableColumn fx:id="colStockMinimo" text="Stock mínimo" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+</BorderPane>

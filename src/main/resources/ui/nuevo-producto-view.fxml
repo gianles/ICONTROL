@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.icontrol.ui.NuevoProductoController">
+
+    <center>
+        <GridPane hgap="10" vgap="10">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+
+            <Label text="Referencia:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtReferencia" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Descripción:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtDescripcion" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="PVP (€):" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtPvp" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="Stock:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtStock" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <Label text="Stock mínimo:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtStockMinimo" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            <Label text="ID proveedor (opcional):" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtIdProveedor" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+        </GridPane>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="10" right="15" bottom="10" left="15"/>
+            </padding>
+            <Button text="Cancelar" onAction="#onCancelarClick"/>
+            <Button fx:id="btnGuardar" text="Guardar" onAction="#onGuardarClick"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
