@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.icontrol.ui.VentasController">
+
+    <top>
+        <VBox spacing="8">
+            <Label text="ICONTROL - Nueva venta"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 10 10 0 10;"/>
+
+            <ToolBar>
+                <Button text="Confirmar venta" onAction="#onConfirmarVentaClick"/>
+                <Button text="Eliminar línea" onAction="#onEliminarLineaClick"/>
+                <Button text="Cerrar" onAction="#onCerrarClick"/>
+            </ToolBar>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+
+            <!-- 👇 SELECCIÓN DE CLIENTE CON PADDING CORRECTO -->
+            <HBox spacing="5">
+                <padding>
+                    <Insets top="10" right="10" bottom="0" left="10"/>
+                </padding>
+
+                <Label text="Cliente:"/>
+                <ComboBox fx:id="cmbCliente"
+                          promptText="(Opcional) Selecciona cliente"
+                          HBox.hgrow="ALWAYS"/>
+                <Button text="+"
+                        prefWidth="30"
+                        onAction="#onNuevoClienteClick"/>
+            </HBox>
+
+            <!-- Bloque de selección de producto -->
+            <TitledPane text="Añadir producto a la venta" expanded="true">
+                <content>
+                    <GridPane hgap="8" vgap="8">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" minWidth="90"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                            <ColumnConstraints minWidth="80"/>
+                        </columnConstraints>
+
+                        <!-- Fila 0 -->
+                        <Label text="Referencia:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="txtReferencia" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                        <Button text="Buscar"
+                                GridPane.rowIndex="0" GridPane.columnIndex="2"
+                                onAction="#onBuscarProductoClick"/>
+
+                        <!-- Fila 1 -->
+                        <Label text="Descripción:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblDescripcion"
+                               GridPane.rowIndex="1" GridPane.columnIndex="1"
+                               style="-fx-font-weight: bold;"/>
+
+                        <!-- Fila 2 -->
+                        <Label text="PVP:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblPvp"
+                               GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <!-- Fila 3 -->
+                        <Label text="Cantidad:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <TextField fx:id="txtCantidad" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                        <Button text="Añadir línea"
+                                GridPane.rowIndex="3" GridPane.columnIndex="2"
+                                onAction="#onAgregarLineaClick"/>
+                    </GridPane>
+                </content>
+            </TitledPane>
+
+            <!-- Tabla de líneas de venta -->
+            <TableView fx:id="tablaLineas" prefHeight="300">
+                <columns>
+                    <TableColumn fx:id="colReferencia" text="Ref." prefWidth="100"/>
+                    <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="250"/>
+                    <TableColumn fx:id="colCantidad" text="Cant." prefWidth="60"/>
+                    <TableColumn fx:id="colPvp" text="PVP" prefWidth="80"/>
+                    <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="100"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Label text="Total (IVA incl.):"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <Label fx:id="lblTotal"
+                   text="0.00 €"
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #006600;"/>
+        </HBox>
+    </bottom>
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+</BorderPane>

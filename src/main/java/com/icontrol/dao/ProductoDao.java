@@ -22,4 +22,6 @@ public interface ProductoDao {
 
     int contarPorProveedor(long idProveedor) throws SQLException;
 
+    Optional<Producto> buscarPorId(long id) throws SQLException;
+
 }

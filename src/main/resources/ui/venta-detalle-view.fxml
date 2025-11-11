@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.icontrol.ui.DetalleVentaController">
+
+    <top>
+        <VBox spacing="4">
+            <Label fx:id="lblCabecera"
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 10 10 0 10;"/>
+
+            <!-- 👇 NUEVA FILA CLIENTE -->
+            <HBox spacing="10">
+                <Label text="Cliente:"/>
+                <Label fx:id="lblCliente"/>
+            </HBox>
+
+            <HBox spacing="15">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <Label text="Total:" style="-fx-font-weight: bold;"/>
+                <Label fx:id="lblTotal"/>
+
+                <Label text="IVA:" style="-fx-font-weight: bold;"/>
+                <Label fx:id="lblIva"/>
+
+                <Label text="Productos:" style="-fx-font-weight: bold;"/>
+                <Label fx:id="lblItems"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tablaLineas">
+            <columns>
+                <TableColumn fx:id="colReferencia" text="Ref." prefWidth="100"/>
+                <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="250"/>
+                <TableColumn fx:id="colCantidad" text="Cant." prefWidth="60"/>
+                <TableColumn fx:id="colPvp" text="PVP" prefWidth="80"/>
+                <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="100"/>
+                <TableColumn fx:id="colIvaLinea" text="IVA línea" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="Imprimir" onAction="#onImprimirClick"/>
+            <Button text="Cerrar" onAction="#onCerrarClick"/>
+        </HBox>
+    </bottom>
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+</BorderPane>

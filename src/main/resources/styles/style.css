@@ -1,34 +1,76 @@
-/* === Estilos globales de ICONTROL === */
-
-/* Fondo general de las ventanas */
 .root {
-    -fx-background-color: #f5f5f5;
-    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+    -fx-background-color: #f3f4f6;
 }
 
-/* Botones generales */
-.button {
-    -fx-background-color: #1976d2;
+/* ToolBar principal */
+.main-toolbar {
+    -fx-background-color: #ffffff;
+    -fx-spacing: 8;
+    -fx-padding: 8 12 8 12;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.08) , 8, 0.0 , 0 , 2 );
+}
+
+/* Botones “planos” */
+.button.btn-flat {
+    -fx-background-color: transparent;
+    -fx-text-fill: #111827;
+    -fx-padding: 6 10 6 10;
+}
+
+.button.btn-flat:hover {
+    -fx-background-color: #e5e7eb;
+}
+
+/* Botón principal (Nuevo, Nueva venta…) */
+.button.btn-primary {
+    -fx-background-color: linear-gradient(to bottom, #22c55e, #16a34a);
     -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-background-radius: 8;
-    -fx-cursor: hand;
-}
-.button:hover {
-    -fx-background-color: #0d47a1;
+    -fx-background-radius: 18;
+    -fx-padding: 6 14 6 14;
 }
 
-/* Botón de eliminar (rojo) */
-#btnEliminar {
-    -fx-background-color: #d32f2f;
+.button.btn-primary:hover {
+    -fx-background-color: linear-gradient(to bottom, #16a34a, #15803d);
+}
+
+/* Botón peligro (Eliminar) */
+.button.btn-danger {
+    -fx-background-color: #ef4444;
     -fx-text-fill: white;
-}
-#btnEliminar:hover {
-    -fx-background-color: #b71c1c;
+    -fx-background-radius: 18;
+    -fx-padding: 6 14 6 14;
 }
 
-/* Títulos de formularios */
-.label {
-    -fx-font-size: 14px;
-    -fx-text-fill: #333;
+.button.btn-danger:hover {
+    -fx-background-color: #b91c1c;
+}
+
+/* Tabla más limpia */
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent;
+    -fx-background-radius: 12;
+    -fx-padding: 8;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f9fafb;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-size: 30px;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #e5e7eb;
+}
+
+
+.label.stat-card {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10 14 10 14;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.06) , 6, 0.0 , 0 , 2 );
+    -fx-font-size: 12px;
+    -fx-text-fill: #4b5563;
 }

@@ -146,6 +146,25 @@ public class ProductoDaoSqlite implements ProductoDao {
         return 0;
     }
 
+    @Override
+    public Optional<Producto> buscarPorId(long id) throws SQLException {
+        String sql = "SELECT * FROM producto WHERE id = ?";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setLong(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(mapRow(rs));
+                } else {
+                    return Optional.empty();
+                }
+            }
+        }
+    }
+
 
     @Override
     public void eliminar(long id) throws SQLException {

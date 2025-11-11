@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.icontrol.ui.SelectorProductoController">
+
+    <top>
+        <HBox spacing="8">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Label text="Buscar:"/>
+            <TextField fx:id="txtFiltro"
+                       HBox.hgrow="ALWAYS"
+                       promptText="Referencia o descripción..."/>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tablaProductos">
+            <columns>
+                <TableColumn fx:id="colReferencia" text="Referencia" prefWidth="120"/>
+                <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="300"/>
+                <TableColumn fx:id="colPvp" text="PVP" prefWidth="80"/>
+                <TableColumn fx:id="colStock" text="Stock" prefWidth="80"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Button text="Aceptar" onAction="#onAceptarClick"/>
+            <Button text="Cancelar" onAction="#onCancelarClick"/>
+        </HBox>
+    </bottom>
+
+    <padding>
+        <Insets top="5" right="5" bottom="5" left="5"/>
+    </padding>
+</BorderPane>

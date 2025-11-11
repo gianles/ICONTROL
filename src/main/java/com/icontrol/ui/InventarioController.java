@@ -2,7 +2,10 @@ package com.icontrol.ui;
 
 import com.icontrol.dao.ProductoDao;
 import com.icontrol.dao.ProductoDaoSqlite;
+import com.icontrol.dao.VentaDao;
+import com.icontrol.dao.VentaDaoSqlite;
 import com.icontrol.model.Producto;
+import com.icontrol.model.Venta;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,17 +13,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class InventarioController {
@@ -46,7 +46,18 @@ public class InventarioController {
     @FXML
     private Label statusLabel;
 
+    // 🔹 Labels del mini-dashboard
+    @FXML
+    private Label lblStatProductos;
+
+    @FXML
+    private Label lblStatStockBajo;
+
+    @FXML
+    private Label lblStatVentasHoy;
+
     private final ProductoDao productoDao = new ProductoDaoSqlite();
+    private final VentaDao ventaDao = new VentaDaoSqlite();
 
     private PauseTransition mensajeTimer;
 
@@ -68,10 +79,8 @@ public class InventarioController {
             statusLabel.managedProperty().bind(statusLabel.visibleProperty());
         }
 
-        // Cargar datos al iniciar
+        // Cargar datos al iniciar (y actualizar mini-dashboard)
         cargarProductos();
-        // Si quieres probar el snackbar al inicio:
-        // mostrarMensaje("Inventario cargado correctamente.");
     }
 
     private void mostrarMensaje(String texto) {
@@ -136,6 +145,96 @@ public class InventarioController {
     }
 
     @FXML
+    private void onNuevaVentaClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ui/ventas-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("ICONTROL - Nueva venta");
+            stage.setScene(new Scene(root, 800, 600));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+            // Después de una venta, refrescamos el inventario y el resumen
+            cargarProductos();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir la ventana de ventas:\n" + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void onHistorialVentasClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ui/ventas-historial-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("ICONTROL - Historial de ventas");
+
+            Scene scene = new Scene(root, 900, 550);
+            stage.setScene(scene);
+            stage.setMinWidth(850);
+            stage.setMinHeight(500);
+
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir el historial de ventas:\n" + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void onNuevoClienteGlobalClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/nuevo-cliente-view.fxml"));
+            Parent root = loader.load();
+
+            NuevoClienteController controller = loader.getController();
+            controller.setOnClienteGuardado(() -> {
+                mostrarMensaje("Cliente creado correctamente.");
+            });
+
+            Stage stage = new Stage();
+            stage.setTitle("Nuevo cliente");
+            stage.setScene(new Scene(root, 480, 260));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir el formulario de cliente:\n" + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void onClientesClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ui/clientes-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("ICONTROL - Clientes");
+            stage.setScene(new Scene(root, 800, 500));
+            stage.setMinWidth(700);
+            stage.setMinHeight(400);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir la gestión de clientes:\n" + e.getMessage());
+        }
+    }
+
+    @FXML
     private void onEliminarClick() {
         var seleccionados = tablaProductos.getSelectionModel().getSelectedItems();
 
@@ -146,7 +245,6 @@ public class InventarioController {
 
         int total = seleccionados.size();
 
-        // Texto dinámico según cantidad
         String textoConfirmacion;
         if (total == 1) {
             Producto p = seleccionados.get(0);
@@ -162,9 +260,8 @@ public class InventarioController {
         confirm.setContentText(textoConfirmacion);
 
         var result = confirm.showAndWait();
-        if (result.isPresent() && result.get() == javafx.scene.control.ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                // Copia para evitar problemas al modificar mientras se refresca la tabla
                 var copia = List.copyOf(seleccionados);
 
                 for (Producto p : copia) {
@@ -173,7 +270,6 @@ public class InventarioController {
 
                 cargarProductos();
 
-                // Mensaje snackbar
                 if (total == 1) {
                     mostrarMensaje("Producto eliminado correctamente.");
                 } else {
@@ -226,9 +322,47 @@ public class InventarioController {
             List<Producto> lista = productoDao.buscarTodos();
             ObservableList<Producto> datos = FXCollections.observableArrayList(lista);
             tablaProductos.setItems(datos);
+
+            // 👉 actualizar mini-dashboard
+            actualizarResumen(lista);
+
         } catch (SQLException e) {
             e.printStackTrace();
             mostrarMensaje("Error al cargar productos.");
+        }
+    }
+
+    /** Calcula Productos / Stock bajo / Ventas hoy y lo pinta en las tarjetas */
+    private void actualizarResumen(List<Producto> productos) {
+        // 1) Total productos
+        int totalProductos = productos.size();
+
+        // 2) Productos con stock bajo
+        long stockBajo = productos.stream()
+                .filter(p -> p.getStock() <= p.getStockMinimo())
+                .count();
+
+        // 3) Ventas de hoy
+        int ventasHoy = 0;
+        try {
+            List<Venta> ventas = ventaDao.buscarTodas();
+            LocalDate hoy = LocalDate.now();
+
+            ventasHoy = (int) ventas.stream()
+                    .filter(v -> v.getFecha().toLocalDate().equals(hoy))
+                    .count();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (lblStatProductos != null) {
+            lblStatProductos.setText("Productos\n" + totalProductos);
+        }
+        if (lblStatStockBajo != null) {
+            lblStatStockBajo.setText("Stock bajo\n" + stockBajo);
+        }
+        if (lblStatVentasHoy != null) {
+            lblStatVentasHoy.setText("Ventas hoy\n" + ventasHoy);
         }
     }
 
