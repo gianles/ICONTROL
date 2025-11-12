@@ -8,12 +8,15 @@ public class Producto {
     private double pvp;
     private int stock;
     private int stockMinimo;
-    private Long idProveedor; // puede ser null
+    private Long idProveedor;  // puede ser null
+    private boolean activo = true;  // 👈 campo para control lógico
+    private int vendidos;  // 👈 unidades vendidas acumuladas
 
     public Producto() { }
 
     public Producto(long id, String referencia, String descripcion,
-                    double pvp, int stock, int stockMinimo, Long idProveedor) {
+                    double pvp, int stock, int stockMinimo,
+                    Long idProveedor, boolean activo) {
         this.id = id;
         this.referencia = referencia;
         this.descripcion = descripcion;
@@ -21,12 +24,13 @@ public class Producto {
         this.stock = stock;
         this.stockMinimo = stockMinimo;
         this.idProveedor = idProveedor;
+        this.activo = activo;
     }
 
     // Constructor sin id, útil para nuevas inserciones
     public Producto(String referencia, String descripcion,
                     double pvp, int stock, int stockMinimo, Long idProveedor) {
-        this(0, referencia, descripcion, pvp, stock, stockMinimo, idProveedor);
+        this(0, referencia, descripcion, pvp, stock, stockMinimo, idProveedor, true);
     }
 
     // Getters y setters
@@ -51,6 +55,12 @@ public class Producto {
     public Long getIdProveedor() { return idProveedor; }
     public void setIdProveedor(Long idProveedor) { this.idProveedor = idProveedor; }
 
+    public boolean isActivo() { return activo; }
+    public void setActivo(boolean activo) { this.activo = activo; }
+
+    public int getVendidos() { return vendidos; }
+    public void setVendidos(int vendidos) { this.vendidos = vendidos; }
+
     @Override
     public String toString() {
         return "Producto{" +
@@ -61,6 +71,8 @@ public class Producto {
                 ", stock=" + stock +
                 ", stockMinimo=" + stockMinimo +
                 ", idProveedor=" + idProveedor +
+                ", activo=" + activo +
+                ", vendidos=" + vendidos +
                 '}';
     }
 }

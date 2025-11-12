@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.icontrol.ui.UsuariosController">
+
+    <top>
+        <VBox spacing="8">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+            <Label text="ICONTROL - Gestión de usuarios"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+            <ToolBar>
+                <Button fx:id="btnNuevo" text="Nuevo usuario" onAction="#onNuevoClick"/>
+                <Button fx:id="btnEditar" text="Editar usuario" onAction="#onEditarClick"/>
+                <Button fx:id="btnResetPass" text="Restablecer contraseña" onAction="#onResetPassClick"/>
+                <Region />
+                <Button text="Cerrar" onAction="#onCerrarClick"/>
+            </ToolBar>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tablaUsuarios">
+            <columns>
+                <TableColumn fx:id="colUsername" text="Usuario" prefWidth="160"/>
+                <TableColumn fx:id="colNombre" text="Nombre" prefWidth="160"/>
+                <TableColumn fx:id="colApellido" text="Apellido" prefWidth="160"/>
+                <TableColumn fx:id="colRol" text="Rol" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <padding>
+        <Insets top="0" right="10" bottom="10" left="10"/>
+    </padding>
+</BorderPane>

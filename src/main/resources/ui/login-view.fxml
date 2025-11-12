@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.icontrol.ui.LoginController"
+           styleClass="login-root">
+
+    <!-- Tarjeta centrada -->
+    <VBox alignment="CENTER" spacing="0">
+        <VBox styleClass="login-card" spacing="16">
+            <Label text="ICONTROL" styleClass="login-title"/>
+            <Label text="Acceso al sistema" styleClass="login-subtitle"/>
+
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="90"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <Label text="Usuario:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                <TextField fx:id="txtUsuario"
+                           promptText="usuario"
+                           GridPane.rowIndex="0" GridPane.columnIndex="1"
+                           styleClass="login-field"/>
+
+                <Label text="Contraseña:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                <PasswordField fx:id="txtPassword"
+                               promptText="contraseña"
+                               GridPane.rowIndex="1" GridPane.columnIndex="1"
+                               styleClass="login-field"/>
+            </GridPane>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Entrar"
+                        onAction="#onLoginClick"
+                        defaultButton="true"
+                        styleClass="btn-primary"/>
+                <Button text="Salir"
+                        onAction="#onSalirClick"
+                        cancelButton="true"
+                        styleClass="btn-secondary"/>
+            </HBox>
+
+            <Label fx:id="lblError" textFill="#e74c3c" styleClass="error-text"/>
+        </VBox>
+    </VBox>
+
+</StackPane>

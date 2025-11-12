@@ -74,3 +74,89 @@
     -fx-font-size: 12px;
     -fx-text-fill: #4b5563;
 }
+
+
+/* Fila marcada como inactiva */
+.table-row-cell:inactivo {
+    -fx-background-color: #E3C1C1;
+    -fx-background-insets: 0, 1, 2;  /* mantiene el “layering” de Modena */
+    -fx-background-radius: 0;
+}
+
+/* Si la fila inactiva está seleccionada, que también se note */
+.table-row-cell:inactivo:selected {
+    -fx-background-color: derive(#fff4f4, -10%);
+}
+
+/* Texto más tenue dentro de la fila inactiva */
+.table-row-cell:inactivo .table-cell {
+    -fx-text-fill: #7a5d5d;
+}
+
+
+/* Fondo general con degradado suave */
+.login-root {
+    -fx-background-color: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
+    -fx-padding: 24;
+}
+
+/* Tarjeta centrada con efecto “glass” */
+.login-card {
+    -fx-background-color: rgba(255,255,255,0.90);
+    -fx-background-radius: 16;
+    -fx-padding: 22 22 22 22;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 22, 0.12, 0, 6);
+    -fx-min-width: 420;
+    -fx-max-width: 500;
+}
+
+/* Título y subtítulo */
+.login-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+.login-subtitle {
+    -fx-text-fill: #6b7280;
+    -fx-padding: 0 0 6 0;
+}
+
+/* Campos */
+.login-field {
+    -fx-background-radius: 10;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 10;
+    -fx-padding: 8 10 8 10;
+}
+.login-field:focused {
+    -fx-border-color: #6366f1;
+    -fx-effect: dropshadow(gaussian, rgba(99,102,241,0.25), 8, 0.15, 0, 2);
+}
+
+/* Botones */
+.btn-primary {
+    -fx-background-color: #6366f1;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-background-radius: 10;
+    -fx-padding: 8 16 8 16;
+}
+.btn-primary:hover { -fx-background-color: #4f46e5; }
+.btn-primary:armed { -fx-background-color: #4338ca; }
+
+.btn-secondary {
+    -fx-background-color: #e5e7eb;
+    -fx-text-fill: #374151;
+    -fx-font-weight: 600;
+    -fx-background-radius: 10;
+    -fx-padding: 8 16 8 16;
+}
+.btn-secondary:hover { -fx-background-color: #d1d5db; }
+.btn-secondary:armed { -fx-background-color: #9ca3af; }
+
+/* Texto de error */
+.error-text {
+    -fx-font-size: 12px;
+    -fx-padding: 4 0 0 0;
+}

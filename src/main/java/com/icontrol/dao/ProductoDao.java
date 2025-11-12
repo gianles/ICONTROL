@@ -14,14 +14,18 @@ public interface ProductoDao {
 
     Optional<Producto> buscarPorReferencia(String referencia) throws SQLException;
 
-    // actualizar
     void actualizar(Producto p) throws SQLException;
 
-    // eliminar
     void eliminar(long id) throws SQLException;
 
     int contarPorProveedor(long idProveedor) throws SQLException;
 
     Optional<Producto> buscarPorId(long id) throws SQLException;
 
+    // 🔹 NUEVOS métodos para manejar el campo "activo"
+    void desactivar(long id) throws SQLException;
+
+    void reactivar(long id) throws SQLException;
+
+    List<Producto> buscarTodos(boolean incluirInactivos) throws SQLException;
 }

@@ -12,6 +12,7 @@ public class ProductoDaoSqlite implements ProductoDao {
 
     @Override
     public Producto insertar(Producto p) throws SQLException {
+        // No hace falta especificar 'activo' porque tiene DEFAULT 1 en la tabla
         String sql = """
             INSERT INTO producto (referencia, descripcion, pvp, stock, stock_minimo, id_proveedor)
             VALUES (?, ?, ?, ?, ?, ?)
@@ -44,11 +45,33 @@ public class ProductoDaoSqlite implements ProductoDao {
         return p;
     }
 
+    /** Lista sólo productos activos */
     @Override
     public List<Producto> buscarTodos() throws SQLException {
+        return buscarTodos(false);
+    }
+
+    /**
+     * Si incluirInactivos = true, devuelve todos; si no, sólo activos.
+     * Además, trae el agregado de unidades vendidas por producto (alias 'vendidos').
+     */
+    public List<Producto> buscarTodos(boolean incluirInactivos) throws SQLException {
         List<Producto> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM producto ORDER BY descripcion";
+        String filtroActivo = incluirInactivos ? "" : "WHERE p.activo = 1";
+
+        String sql = """
+            SELECT
+                p.*,
+                IFNULL((
+                    SELECT SUM(lv.cantidad)
+                    FROM linea_venta lv
+                    WHERE lv.id_producto = p.id
+                ), 0) AS vendidos
+            FROM producto p
+            %s
+            ORDER BY p.descripcion
+            """.formatted(filtroActivo);
 
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -56,6 +79,8 @@ public class ProductoDaoSqlite implements ProductoDao {
 
             while (rs.next()) {
                 Producto p = mapRow(rs);
+                // 👇 nuevo: setear las unidades vendidas
+                p.setVendidos(rs.getInt("vendidos"));
                 lista.add(p);
             }
         }
@@ -65,7 +90,7 @@ public class ProductoDaoSqlite implements ProductoDao {
 
     @Override
     public Optional<Producto> buscarPorReferencia(String referencia) throws SQLException {
-        String sql = "SELECT * FROM producto WHERE referencia = ?";
+        String sql = "SELECT * FROM producto WHERE referencia = ? AND activo = 1";
 
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -97,6 +122,12 @@ public class ProductoDaoSqlite implements ProductoDao {
             p.setIdProveedor(idProv);
         }
 
+        // activo (compatibilidad por si no existe la columna en BDs antiguas)
+        int activo = 1;
+        try { activo = rs.getInt("activo"); } catch (SQLException ignore) { }
+        p.setActivo(activo == 1);
+
+        // OJO: 'vendidos' lo seteamos en buscarTodos(...) tras mapRow(rs)
         return p;
     }
 
@@ -131,7 +162,7 @@ public class ProductoDaoSqlite implements ProductoDao {
 
     @Override
     public int contarPorProveedor(long idProveedor) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM producto WHERE id_proveedor = ?";
+        String sql = "SELECT COUNT(*) FROM producto WHERE id_proveedor = ? AND activo = 1";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -165,14 +196,29 @@ public class ProductoDaoSqlite implements ProductoDao {
         }
     }
 
-
+    /**
+     * Antes borraba físicamente. Ahora hace baja lógica para evitar romper ventas.
+     */
     @Override
     public void eliminar(long id) throws SQLException {
-        String sql = "DELETE FROM producto WHERE id = ?";
+        desactivar(id);
+    }
 
+    /** Marca el producto como inactivo (baja lógica) */
+    public void desactivar(long id) throws SQLException {
+        String sql = "UPDATE producto SET activo = 0 WHERE id = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, id);
+            ps.executeUpdate();
+        }
+    }
 
+    /** Restaura un producto previamente inactivo */
+    public void reactivar(long id) throws SQLException {
+        String sql = "UPDATE producto SET activo = 1 WHERE id = ?";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
         }
@@ -185,15 +231,15 @@ public class ProductoDaoSqlite implements ProductoDao {
             com.icontrol.db.DatabaseInitializer.initialize();
 
             // Crea una instancia del DAO
-            ProductoDao dao = new ProductoDaoSqlite();
+            ProductoDaoSqlite dao = new ProductoDaoSqlite();
 
             // Inserta un producto de prueba
             Producto nuevo = new Producto("FILT-001", "Filtro de aceite", 15.99, 10, 2, null);
             dao.insertar(nuevo);
             System.out.println("✅ Producto insertado: " + nuevo);
 
-            // Lista todos los productos
-            System.out.println("📦 Listado de productos:");
+            // Lista activos
+            System.out.println("📦 Productos activos:");
             for (Producto p : dao.buscarTodos()) {
                 System.out.println(" - " + p);
             }
@@ -202,5 +248,4 @@ public class ProductoDaoSqlite implements ProductoDao {
             e.printStackTrace();
         }
     }
-
 }

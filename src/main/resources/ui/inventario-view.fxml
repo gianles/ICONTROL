@@ -8,11 +8,22 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.icontrol.ui.InventarioController">
 
-    <!-- PARTE SUPERIOR: título + botones -->
     <top>
         <VBox spacing="8">
+            <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 6 12 0 12;">
+                <Label fx:id="lblSaludo" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+            </HBox>
+
             <Label text="ICONTROL - Inventario de productos"
                    style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 10 10 0 10;"/>
+
+            <!-- 🔍 Buscador -->
+            <HBox spacing="8" alignment="CENTER_LEFT" style="-fx-padding: 0 10 0 10;">
+                <Label text="Buscar:"/>
+                <TextField fx:id="txtBuscar"
+                           promptText="Referencia o descripción"
+                           prefWidth="300"/>
+            </HBox>
 
             <!-- Mini-dashboard -->
             <HBox spacing="10">
@@ -35,33 +46,42 @@
                 </VBox>
             </HBox>
 
-
             <ToolBar>
-                <Button text="Actualizar" onAction="#onActualizarClick"/>
-                <Button text="Nuevo" onAction="#onNuevoClick"/>
-                <Button text="Editar" onAction="#onEditarClick"/>
-                <Button text="Eliminar" onAction="#onEliminarClick"/>
+                <!-- 👇 fx:id añadidos para control por rol -->
+                <Button fx:id="btnActualizar"   text="Actualizar" onAction="#onActualizarClick"/>
+                <Button fx:id="btnNuevo"        text="Nuevo"      onAction="#onNuevoClick"/>
+                <Button fx:id="btnEditar"       text="Editar"     onAction="#onEditarClick"/>
+                <Button fx:id="btnDesactivar"   text="Desactivar" onAction="#onDesactivarClick"/>
+
                 <Separator/>
-                <Button text="Proveedores" onAction="#onProveedoresClick"/>
-                <!-- NUEVO BOTÓN -->
-                <Button text="Nuevo cliente" onAction="#onNuevoClienteGlobalClick"/>
-                <Button text="Clientes" onAction="#onClientesClick"/>
-                <Button text="Nueva venta" onAction="#onNuevaVentaClick"/>
-                <Button text="Historial ventas" onAction="#onHistorialVentasClick"/>
+                <CheckBox fx:id="chkMostrarInactivos" text="Mostrar inactivos" onAction="#onToggleInactivos"/>
+                <Button fx:id="btnReactivar" text="Reactivar" onAction="#onReactivarClick"/>
+
+                <Separator/>
+                <Button fx:id="btnProveedores"  text="Proveedores"   onAction="#onProveedoresClick"/>
+                <Button fx:id="btnNuevoCliente" text="Nuevo cliente" onAction="#onNuevoClienteGlobalClick"/>
+                <Button fx:id="btnClientes"     text="Clientes"      onAction="#onClientesClick"/>
+                <Button fx:id="btnNuevaVenta"   text="Nueva venta"   onAction="#onNuevaVentaClick"/>
+                <Button fx:id="btnHistorialVentas" text="Historial ventas" onAction="#onHistorialVentasClick"/>
+
+                <Separator/>
+                <Button fx:id="btnCerrarSesion" text="Cerrar sesión" onAction="#onCerrarSesionClick"
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+
+                <Button fx:id="btnUsuarios" text="Usuarios" onAction="#onUsuariosClick"/>
             </ToolBar>
         </VBox>
     </top>
 
-
-    <!-- CENTRO: tabla de productos -->
     <center>
         <TableView fx:id="tablaProductos">
             <columns>
-                <TableColumn fx:id="colReferencia" text="Referencia" prefWidth="150"/>
-                <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="300"/>
-                <TableColumn fx:id="colPvp" text="PVP" prefWidth="80"/>
-                <TableColumn fx:id="colStock" text="Stock" prefWidth="80"/>
-                <TableColumn fx:id="colStockMinimo" text="Stock mínimo" prefWidth="100"/>
+                <TableColumn fx:id="colReferencia"  text="Referencia"    prefWidth="150"/>
+                <TableColumn fx:id="colDescripcion" text="Descripción"    prefWidth="300"/>
+                <TableColumn fx:id="colPvp"         text="PVP"            prefWidth="80"/>
+                <TableColumn fx:id="colStock"       text="Stock"          prefWidth="80"/>
+                <TableColumn fx:id="colStockMinimo" text="Stock mínimo"   prefWidth="100"/>
+                <TableColumn fx:id="colVendidos"    text="Vendidos"       prefWidth="90"/>
             </columns>
         </TableView>
     </center>
